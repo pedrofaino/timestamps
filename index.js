@@ -27,18 +27,22 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
-app.get("/api/:date", function (req, res) {
+app.get("/api/:date?", function (req, res) {
   let date = req.params;
   let nDate = new Date(date.date)
-  console.log(date)
-  console.log(nDate.getMonth())
-  if(date){
-    let ts = timestamp.fromDate(date.date)
+  if (date.date.length > 10) {
+    let ts = timestamp.toDate(parseInt(date.date))
     console.log(ts)
-    if(isNaN(ts)){
-      return res.json({error:"Invalid Date"})
+    return res.json({ unix: date.date, utc: ts.toUTCString() })
+  } else if (date.date.length > 10) {
+    let ts = timestamp.fromDate(date.date)
+    if (isNaN(ts)) {
+      return res.json({ error: "Invalid Date" })
     }
-    return res.json({ unix:ts, utc: `${nDate.toUTCString()}`})
+    return res.json({ unix: ts, utc: `${nDate.toUTCString()}` })
+  } else {
+    let date = new Date()
+    return res.json({ unix: timestamp.now(), utc: date.toUTCString() })
   }
 })
 
