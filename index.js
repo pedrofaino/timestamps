@@ -35,7 +35,7 @@ app.get("/api/:date", function (req, res) {
     if(isNaN(ts)){
       return res.json({error:"Invalid Date"})
     }
-    return res.json({ ts })
+    return res.json({ unix:ts })
   }
 })
 
