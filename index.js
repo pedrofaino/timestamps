@@ -28,7 +28,7 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date", function (req, res) {
-  let date = new Date(req.params);
+  let date = req.params;
   if(date){
     let ts = timestamp.fromDate(date.date)
     console.log(ts)
