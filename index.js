@@ -28,11 +28,15 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date", function (req, res) {
-  let date = req.params
-  let ts = timestamp.fromDate(date.date)
-  console.log(date)
-  console.log(ts)
-  res.json({ ts })
+  let date = new Date(req.params);
+  if(date){
+    let ts = timestamp.fromDate(date.date)
+    console.log(ts)
+    if(isNaN(ts)){
+      return res.json({error:"Invalid Date"})
+    }
+    return res.json({ ts })
+  }
 })
 
 
