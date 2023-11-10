@@ -28,23 +28,24 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date?", function (req, res) {
-  let date = req.params;
-  let nDate = new Date(date.date)
-  let ts = Date.parse(date.date)
-  if (!date.date) {
+  let date = req.params.date;
+  let nDate = new Date(date)
+  let regex = /^\d+$/
+  if (!date) {
     let date = new Date()
     return res.json({ unix: timestamp.now(), utc: date.toUTCString() })
-  } else if (date.date.length>10) {
-    let ts = timestamp.toDate(parseInt(date.date))
-    return res.json({ unix: parseInt(date.date), utc: ts.toUTCString() })
-  } else {
-    let tstamp = timestamp.fromDate(date.date)
-    console.log(tstamp)
-    if (isNaN(tstamp)) {
-      return res.json({ error: "Invalid Date" })
-    }
-    return res.json({ unix: tstamp, utc: `${nDate.toUTCString()}` })
   }
+
+  if (regex.test(date)) {
+    let ts = timestamp.toDate(parseInt(date))
+    return res.json({ unix: parseInt(date), utc: ts.toUTCString() })
+  }
+
+  if (nDate != "Invalid Date") {
+    let ts = timestamp.fromDate(date)
+    return res.json({ unix: ts, utc: nDate.toUTCString() })
+  }
+  return res.json({ error: 'Invalid Date' })
 })
 
 
