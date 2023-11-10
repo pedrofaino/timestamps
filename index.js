@@ -30,22 +30,22 @@ app.get("/api/hello", function (req, res) {
 app.get("/api/:date?", function (req, res) {
   let date = req.params;
   let nDate = new Date(date.date)
-  if (date.date.length) {
-    let ts = timestamp.toDate(parseInt(date.date))
-    console.log(ts)
-    return res.json({ unix: date.date, utc: ts.toUTCString() })
-  // } else if (date.date.length > 10) {
-  //   let ts = timestamp.fromDate(date.date)
-  //   if (isNaN(ts)) {
-  //     return res.json({ error: "Invalid Date" })
-  //   }
-  //   return res.json({ unix: ts, utc: `${nDate.toUTCString()}` })
-  } else {
+  let ts = Date.parse(date.date)
+  if (!date.date) {
     let date = new Date()
     return res.json({ unix: timestamp.now(), utc: date.toUTCString() })
+  } else if (date.date.length>10) {
+    let ts = timestamp.toDate(parseInt(date.date))
+    return res.json({ unix: date.date, utc: ts.toUTCString() })
+  } else {
+    let tstamp = timestamp.fromDate(date.date)
+    console.log(tstamp)
+    if (isNaN(tstamp)) {
+      return res.json({ error: "Invalid Date" })
+    }
+    return res.json({ unix: tstamp, utc: `${nDate.toUTCString()}` })
   }
 })
-
 
 
 // listen for requests :)
