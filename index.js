@@ -36,7 +36,7 @@ app.get("/api/:date?", function (req, res) {
     return res.json({ unix: timestamp.now(), utc: date.toUTCString() })
   } else if (date.date.length>10) {
     let ts = timestamp.toDate(parseInt(date.date))
-    return res.json({ unix: date.date, utc: ts.toUTCString() })
+    return res.json({ unix: parseInt(date.date), utc: ts.toUTCString() })
   } else {
     let tstamp = timestamp.fromDate(date.date)
     console.log(tstamp)
