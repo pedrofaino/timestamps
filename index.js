@@ -37,8 +37,8 @@ app.get("/api/:date?", function (req, res) {
   }
 
   if (regex.test(date)) {
-    let ts = timestamp.toDate(parseInt(date))
-    return res.json({ unix: parseInt(date), utc: ts.toUTCString() })
+    let ts = new Date(parseInt(date)).toUTCString()
+    return res.json({ unix: parseInt(date), utc: ts })
   }
 
   if (nDate != "Invalid Date") {
