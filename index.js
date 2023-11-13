@@ -42,7 +42,8 @@ app.get("/api/:date?", function (req, res) {
   }
 
   if (nDate != "Invalid Date") {
-    let ts = timestamp.fromDate(date)
+    let ts = Math.floor(new Date(date).getTime())
+    console.log(ts)
     return res.json({ unix: ts, utc: nDate.toUTCString() })
   }
   return res.json({ error: 'Invalid Date' })
