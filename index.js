@@ -33,7 +33,7 @@ app.get("/api/:date?", function (req, res) {
   let regex = /^\d+$/
   if (!date) {
     let date = new Date()
-    return res.json({ unix: timestamp.now(), utc: date.toUTCString() })
+    return res.json({ unix: Math.floor(new Date().getTime() / 1000), utc: date.toUTCString() })
   }
 
   if (regex.test(date)) {
